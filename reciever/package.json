@@ -1,0 +1,9 @@
+{
+	"dependencies": {
+		"express": "^5.1.0",
+		"@types/express": "^5.0.1"
+	},
+		"scripts" :{
+		"dev": "node index.js"
+	}
+}

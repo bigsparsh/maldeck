@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import OnboardingOverlay from "@/components/ui/onboarding-overlay";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { checkUser } from "@/lib/actions/User";
 import { User } from "@prisma/client";
@@ -10,6 +11,9 @@ const Dashboard = async () => {
   console.log(getUser)
 
   return <div className="h-full w-full">
+    {
+      getUser?.usernew && <OnboardingOverlay />
+    }
     <SidebarProvider>
       <AppSidebar user={getUser?.user as User} />
       <SidebarInset>

@@ -31,7 +31,7 @@ export const checkUser = async () => {
 
   // If user exists in DB then return
   return {
-    usernew: false,
+    usernew: true,
     user: dbUser
   }
 }

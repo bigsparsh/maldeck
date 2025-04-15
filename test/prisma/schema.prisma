@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../dist/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+  name String
+  email String @unique
+  address String
+  phone String
+  
+  user1 Friend[] @relation("user1")
+  user2 Friend[] @relation("user2")
+
+  posts Post[]
+  comments Comment[]
+
+  @@index([id])
+}
+
+model Friend {
+  id String @id @default(cuid())  
+  user1_id String
+  user2_id String
+  mutual Boolean
+
+  user1 User @relation("user1", fields: [user1_id], references: [id], onDelete: Cascade)
+  user2 User @relation("user2", fields: [user2_id], references: [id], onDelete: Cascade)
+
+  @@index([id])
+}
+
+model Post {
+  id String @id @default(cuid())  
+  userId String
+  image String?
+  message String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
+
+  @@index([id])
+}
+
+model Comment {
+  id String @id @default(cuid())  
+  message String
+  userId String
+  postId String
+
+
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([id])
+}
