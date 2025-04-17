@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/dashboard", (req, res) => {
+app.post("/dashboard", (req, res) => {
   console.log(req.body);
   res.json({
     msg: "Joe Mama",

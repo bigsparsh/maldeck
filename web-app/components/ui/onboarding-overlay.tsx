@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Copy, Check, ArrowLeft, ArrowRight, X } from "lucide-react"
+import { Copy, Check, ArrowLeft, ArrowRight } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -33,47 +33,51 @@ export default function OnboardingOverlay() {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  const codeExample = `// Install the package
-npm install @acme/api
-# or
-yarn add @acme/api
+  const codeExample = `
+/// ---------------------------------------------------------
 
-// Import in your project
-import { createClient } from '@acme/api';
+import os from "os";
+import axios from "axios";
 
-// Initialize the client
-const client = createClient({
-  apiKey: process.env.API_KEY,
-  options: {
-    timeout: 30000,
-    retries: 3,
-  }
-});
+let totalRequest = 0;
+let reqPerSec = 0;
+let reqCounter = 0;
 
-// Example usage
-async function fetchData() {
-  try {
-    const response = await client.data.fetch({
-      endpoint: '/users',
-      params: {
-        limit: 10,
-        offset: 0,
-      }
-    });
-    
-    console.log('Data:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
+setInterval(() => {
+    reqPerSec = totalRequest / reqCounter;
+    reqCounter++;
+}, 1000)
+
+let osStuff = {
+    platform: os.platform(),
+    architecture: os.arch(),
+    release: os.release(),
+    type: os.type(),
+    uptime: os.uptime(),
+    network: os.networkInterfaces(),
+    totalmem: os.totalmem(),
+    cpus: os.cpus()
 }
 
-// Call the function
-fetchData().then(data => {
-  // Process your data here
-  renderResults(data);
-});`
+let networkingStuff: {
+    ip: string
+};
+
+app.get("/metrics", async (_, res) => {
+    const ip = await axios.get("https://api.ipify.org");
+    networkingStuff.ip = ip.data;
+    await axios.post("http://localhost:3001/dashboard", {
+        osStuff,
+        reqPerSec,
+        ip: ip.data
+    })
+    res.json({
+        msg: "Done :thmbsup:"
+    })
+})
+
+/// ---------------------------------------------------------
+`
 
   useEffect(() => {
     // Reset copied state when changing steps
@@ -122,7 +126,7 @@ fetchData().then(data => {
 
           {currentStep === 2 && (
             <div className="space-y-4">
-              <p>To get started, you'll need to install our package. Copy the following code into your terminal:</p>
+              <p>To get started, you'll need to paste this code into your backend server just after express initilaization. Copy the following code into your code editor:</p>
               <div className="relative border rounded-md">
                 <pre className="bg-muted p-4 rounded-md overflow-auto max-h-[300px] whitespace-pre-wrap">
                   <code className="text-sm">{codeExample}</code>

@@ -4,7 +4,6 @@ import "./globals.css";
 import ThemeProvider from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import { DM_Sans } from "next/font/google"
-import Header from "@/components/Header";
 
 const dmsans_init = DM_Sans({
   subsets: ['latin']
