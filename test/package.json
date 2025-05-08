@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch src --exec 'tsc -b && node dist/index.js'"
+    "build": "pnpm install && prisma generate dev",
+    "dev": "nodemon --watch src --exec 'tsc -b && node dist/index.js'",
+    "start": "tsc -b && node dist/index.js"
   },
   "keywords": [],
   "author": "",
