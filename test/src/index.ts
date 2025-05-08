@@ -35,10 +35,20 @@ let networkingStuff: {
 };
 
 app.use((req, _, next) => {
-    const body = req.body;
-    const ip = req.ip;
-    console.log(body)
-    console.log(ip)
+    let ip = req.ip;
+
+    const xForwardedFor = req.headers['x-forwarded-for'];
+    if (xForwardedFor) {
+        ip = (xForwardedFor as string).split(',')[0]; // Get the first IP in the list
+    }
+    // Cloudflare
+    const cfConnectingIp = req.headers['cf-connecting-ip'];
+    if (cfConnectingIp) {
+        ip = cfConnectingIp as string;
+    }
+
+    console.log('Client IP Address:', ip);
+    console.log("Headers: ", req.headers)
     next()
 });
 
