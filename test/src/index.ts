@@ -34,6 +34,14 @@ let networkingStuff: {
     ip: string
 };
 
+app.use((req, _, next) => {
+    const body = req.body;
+    const ip = req.ip;
+    console.log(body)
+    console.log(ip)
+    next()
+});
+
 app.get("/metrics", async (_, res) => {
     const ip = await axios.get("https://api.ipify.org");
     networkingStuff.ip = ip.data;

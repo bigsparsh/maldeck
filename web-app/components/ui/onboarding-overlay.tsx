@@ -1,23 +1,45 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, } from "react"
 import { Copy, Check, ArrowLeft, ArrowRight } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { Input } from "./input"
+import { toast } from "sonner"
 
 export default function OnboardingOverlay() {
+  const [backendURL, setBackendURL] = useState<string>();
   const [open, setOpen] = useState(true)
   const [currentStep, setCurrentStep] = useState(1)
   const [copied, setCopied] = useState(false)
+  const [error, setError] = useState<string>("");
 
-  const totalSteps = 3
+  useEffect(() => {
+
+    localStorage.setItem("onboarding_status", "open");
+  }, [])
+
+  useEffect(() => {
+    if (error !== "") {
+      toast(error);
+    }
+  }, [error])
+  const totalSteps = 4
 
   const handleNext = () => {
+    if ((!backendURL || backendURL === "") && currentStep === 3) {
+      setError("Please enter the backend URL before continuing");
+      return;
+    }
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1)
     } else {
       setOpen(false)
+      localStorage.setItem("onboarding_status", "closed");
+    }
+    if (currentStep === 3) {
+      localStorage.setItem("backendURL", backendURL as string);
     }
   }
 
@@ -91,11 +113,9 @@ app.get("/metrics", async (_, res) => {
           <DialogTitle>
             {currentStep === 1 && "Welcome to Our Platform"}
             {currentStep === 2 && "Quick Setup"}
-            {currentStep === 3 && "You're All Set!"}
+            {currentStep === 3 && "Just give us some details"}
+            {currentStep === 4 && "You're All Set!"}
           </DialogTitle>
-          {/* <Button variant="ghost" size="icon" onClick={() => setOpen(false)} className="h-8 w-8"> */}
-          {/*   <X className="h-4 w-4 border border-red-400" /> */}
-          {/* </Button> */}
         </DialogHeader>
 
         {/* Step indicators */}
@@ -140,6 +160,16 @@ app.get("/metrics", async (_, res) => {
           )}
 
           {currentStep === 3 && (
+            <div className="space-y-4">
+              <p>You are almost done</p>
+              <Input type="text" placeholder="Enter your backend URL" onChange={e => {
+                setBackendURL(e.target.value)
+              }} />
+              <p>This will help us to ping your backend to get the necessary information from the server and provide stats to us. So that you may handle or modify your traffic accordingly.</p>
+            </div>
+          )}
+
+          {currentStep === 4 && (
             <div className="space-y-4">
               <p className="text-lg font-medium">Welcome aboard! 🎉</p>
               <p>You're all set to start using our platform. We're thrilled to have you as part of our community.</p>

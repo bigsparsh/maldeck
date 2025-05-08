@@ -2,13 +2,13 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import OnboardingOverlay from "@/components/ui/onboarding-overlay";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import WidgetDisplay from "@/components/WidgetDisplay";
 import { checkUser } from "@/lib/actions/User";
 import { User } from "@prisma/client";
 import { Separator } from "@radix-ui/react-separator";
 
 const Dashboard = async () => {
   const getUser = await checkUser();
-  console.log(getUser)
 
   return <div className="h-full w-full">
     {
@@ -37,7 +37,11 @@ const Dashboard = async () => {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="bg-muted/50 h-full w-full rounded-xl border-dashed grid place-items-center"></div>
+          <div className="bg-muted/50 h-full w-full rounded-xl border-dashed grid place-items-center">
+            {getUser &&
+              <WidgetDisplay user={getUser}></WidgetDisplay>
+            }
+          </div>
         </div>
       </SidebarInset>
     </SidebarProvider>
