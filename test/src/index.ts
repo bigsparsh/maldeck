@@ -39,12 +39,7 @@ app.use((req, _, next) => {
 
     const xForwardedFor = req.headers['x-forwarded-for'];
     if (xForwardedFor) {
-        ip = (xForwardedFor as string).split(',')[0]; // Get the first IP in the list
-    }
-    // Cloudflare
-    const cfConnectingIp = req.headers['cf-connecting-ip'];
-    if (cfConnectingIp) {
-        ip = cfConnectingIp as string;
+        ip = (xForwardedFor as string).split(',')[0];
     }
 
     console.log('Client IP Address:', ip);
