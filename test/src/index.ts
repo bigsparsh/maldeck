@@ -1,5 +1,6 @@
 import express from "express";
 import { prisma } from "./db";
+import expressFingerprint from "express-fingerprint"
 
 const app = express();
 app.use(express.json());
@@ -33,6 +34,7 @@ let osStuff = {
 let networkingStuff: {
     ip: string
 };
+app.use(expressFingerprint())
 
 app.use((req, _, next) => {
     let ip = req.ip;
@@ -43,7 +45,8 @@ app.use((req, _, next) => {
     }
 
     console.log('Client IP Address:', ip);
-    console.log("Headers: ", req.headers)
+    console.log("Headers: ", req.headers);
+    console.log("Fingerprint:, req.fingerprint");
     next()
 });
 
