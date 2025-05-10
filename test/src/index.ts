@@ -37,16 +37,9 @@ let networkingStuff: {
 app.use(expressFingerprint())
 
 app.use((req, _, next) => {
-    let ip = req.ip;
+    let fingerprint = req.fingerprint;
 
-    const xForwardedFor = req.headers['x-forwarded-for'];
-    if (xForwardedFor) {
-        ip = (xForwardedFor as string).split(',')[0];
-    }
 
-    console.log('Client IP Address:', ip);
-    console.log("Headers: ", req.headers);
-    console.log("Fingerprint:", req.fingerprint);
     next()
 });
 

@@ -10,7 +10,7 @@ export const checkUser = async () => {
   // Fetch user from DB
   const dbUser = await prisma.user.findUnique({
     where: {
-      id: user.id
+      clerkId: user.id
     }
   })
 
@@ -18,7 +18,7 @@ export const checkUser = async () => {
   if (!dbUser) {
     const newUser = await prisma.user.create({
       data: {
-        id: user.id,
+        clerkId: user.id,
         email: user.emailAddresses[0].emailAddress,
         image: user.imageUrl,
         name: `${user.fullName}`
