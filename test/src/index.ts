@@ -46,7 +46,7 @@ app.use((req, _, next) => {
 
     console.log('Client IP Address:', ip);
     console.log("Headers: ", req.headers);
-    console.log("Fingerprint:, req.fingerprint");
+    console.log("Fingerprint:", req.fingerprint);
     next()
 });
 
