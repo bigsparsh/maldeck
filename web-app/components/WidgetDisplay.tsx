@@ -1,7 +1,8 @@
 "use client"
 import { createConnection } from "@/lib/actions/User"
+import { useOnboardingStatus } from "@/store/util"
 import { User } from "@prisma/client"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { toast } from "sonner"
 
 const WidgetDisplay = ({ user }: {
@@ -10,21 +11,23 @@ const WidgetDisplay = ({ user }: {
         user: User
     }
 }) => {
-    const [onboardingstatus, setOnboardingStatus] = useState<string>();
+    const onboardingstatus = useOnboardingStatus((state) => state.status);
+    const backendURL = useOnboardingStatus((state) => state.backendUrl);
+    const backendName = useOnboardingStatus((state) => state.backendName);
+
     useEffect(() => {
-        setOnboardingStatus(localStorage.getItem("onboarding_status") as string)
-    }, [])
-    useEffect(() => {
-        if (onboardingstatus === "open") return;
-        const backendURL = localStorage.getItem("backendURL");
+        if (onboardingstatus) return;
+
         toast(backendURL);
+
         if (backendURL && backendURL !== "") {
             createConnection({
                 backendUrl: backendURL,
-                name: "Sona Movsessian",
+                name: backendName,
                 user: user.user
             })
         }
+
     }, [onboardingstatus]);
     return <div>This is the widget Display</div>
 }

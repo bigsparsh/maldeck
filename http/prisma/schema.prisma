@@ -27,6 +27,7 @@ model Connection {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   backendUrl String
+  sheetId String?
   userId String @db.ObjectId
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

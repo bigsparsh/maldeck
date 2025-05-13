@@ -2085,6 +2085,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     backendUrl: string | null
+    sheetId: string | null
     userId: string | null
   }
 
@@ -2092,6 +2093,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     backendUrl: string | null
+    sheetId: string | null
     userId: string | null
   }
 
@@ -2099,6 +2101,7 @@ export namespace Prisma {
     id: number
     name: number
     backendUrl: number
+    sheetId: number
     userId: number
     _all: number
   }
@@ -2108,6 +2111,7 @@ export namespace Prisma {
     id?: true
     name?: true
     backendUrl?: true
+    sheetId?: true
     userId?: true
   }
 
@@ -2115,6 +2119,7 @@ export namespace Prisma {
     id?: true
     name?: true
     backendUrl?: true
+    sheetId?: true
     userId?: true
   }
 
@@ -2122,6 +2127,7 @@ export namespace Prisma {
     id?: true
     name?: true
     backendUrl?: true
+    sheetId?: true
     userId?: true
     _all?: true
   }
@@ -2202,6 +2208,7 @@ export namespace Prisma {
     id: string
     name: string
     backendUrl: string
+    sheetId: string | null
     userId: string
     _count: ConnectionCountAggregateOutputType | null
     _min: ConnectionMinAggregateOutputType | null
@@ -2226,6 +2233,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     backendUrl?: boolean
+    sheetId?: boolean
     userId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     logs?: boolean | Connection$logsArgs<ExtArgs>
@@ -2238,10 +2246,11 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     backendUrl?: boolean
+    sheetId?: boolean
     userId?: boolean
   }
 
-  export type ConnectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "backendUrl" | "userId", ExtArgs["result"]["connection"]>
+  export type ConnectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "backendUrl" | "sheetId" | "userId", ExtArgs["result"]["connection"]>
   export type ConnectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     logs?: boolean | Connection$logsArgs<ExtArgs>
@@ -2258,6 +2267,7 @@ export namespace Prisma {
       id: string
       name: string
       backendUrl: string
+      sheetId: string | null
       userId: string
     }, ExtArgs["result"]["connection"]>
     composites: {}
@@ -2656,6 +2666,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Connection", 'String'>
     readonly name: FieldRef<"Connection", 'String'>
     readonly backendUrl: FieldRef<"Connection", 'String'>
+    readonly sheetId: FieldRef<"Connection", 'String'>
     readonly userId: FieldRef<"Connection", 'String'>
   }
     
@@ -4089,6 +4100,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     backendUrl: 'backendUrl',
+    sheetId: 'sheetId',
     userId: 'userId'
   };
 
@@ -4236,6 +4248,7 @@ export namespace Prisma {
     id?: StringFilter<"Connection"> | string
     name?: StringFilter<"Connection"> | string
     backendUrl?: StringFilter<"Connection"> | string
+    sheetId?: StringNullableFilter<"Connection"> | string | null
     userId?: StringFilter<"Connection"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     logs?: LogListRelationFilter
@@ -4245,6 +4258,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     backendUrl?: SortOrder
+    sheetId?: SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
     logs?: LogOrderByRelationAggregateInput
@@ -4257,6 +4271,7 @@ export namespace Prisma {
     NOT?: ConnectionWhereInput | ConnectionWhereInput[]
     name?: StringFilter<"Connection"> | string
     backendUrl?: StringFilter<"Connection"> | string
+    sheetId?: StringNullableFilter<"Connection"> | string | null
     userId?: StringFilter<"Connection"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     logs?: LogListRelationFilter
@@ -4266,6 +4281,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     backendUrl?: SortOrder
+    sheetId?: SortOrder
     userId?: SortOrder
     _count?: ConnectionCountOrderByAggregateInput
     _max?: ConnectionMaxOrderByAggregateInput
@@ -4279,6 +4295,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Connection"> | string
     name?: StringWithAggregatesFilter<"Connection"> | string
     backendUrl?: StringWithAggregatesFilter<"Connection"> | string
+    sheetId?: StringNullableWithAggregatesFilter<"Connection"> | string | null
     userId?: StringWithAggregatesFilter<"Connection"> | string
   }
 
@@ -4407,6 +4424,7 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
     user: UserCreateNestedOneWithoutConnectionsInput
     logs?: LogCreateNestedManyWithoutConnInput
   }
@@ -4415,6 +4433,7 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
     userId: string
     logs?: LogUncheckedCreateNestedManyWithoutConnInput
   }
@@ -4422,6 +4441,7 @@ export namespace Prisma {
   export type ConnectionUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutConnectionsNestedInput
     logs?: LogUpdateManyWithoutConnNestedInput
   }
@@ -4429,6 +4449,7 @@ export namespace Prisma {
   export type ConnectionUncheckedUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     logs?: LogUncheckedUpdateManyWithoutConnNestedInput
   }
@@ -4437,17 +4458,20 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
     userId: string
   }
 
   export type ConnectionUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ConnectionUncheckedUpdateManyInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -4583,6 +4607,22 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    isSet?: boolean
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -4602,6 +4642,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     backendUrl?: SortOrder
+    sheetId?: SortOrder
     userId?: SortOrder
   }
 
@@ -4609,6 +4650,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     backendUrl?: SortOrder
+    sheetId?: SortOrder
     userId?: SortOrder
   }
 
@@ -4616,10 +4658,11 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     backendUrl?: SortOrder
+    sheetId?: SortOrder
     userId?: SortOrder
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -4631,7 +4674,10 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
     isSet?: boolean
   }
 
@@ -4679,25 +4725,6 @@ export namespace Prisma {
     route?: SortOrder
     time?: SortOrder
     connId?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-    isSet?: boolean
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -4780,6 +4807,11 @@ export namespace Prisma {
     connect?: LogWhereUniqueInput | LogWhereUniqueInput[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+    unset?: boolean
+  }
+
   export type UserUpdateOneRequiredWithoutConnectionsNestedInput = {
     create?: XOR<UserCreateWithoutConnectionsInput, UserUncheckedCreateWithoutConnectionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutConnectionsInput
@@ -4820,11 +4852,6 @@ export namespace Prisma {
     create?: XOR<ConnectionCreateWithoutLogsInput, ConnectionUncheckedCreateWithoutLogsInput>
     connectOrCreate?: ConnectionCreateOrConnectWithoutLogsInput
     connect?: ConnectionWhereUniqueInput
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-    unset?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -4896,17 +4923,6 @@ export namespace Prisma {
     isSet?: boolean
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -4937,6 +4953,17 @@ export namespace Prisma {
     isSet?: boolean
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4955,6 +4982,7 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
     logs?: LogCreateNestedManyWithoutConnInput
   }
 
@@ -4962,6 +4990,7 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
     logs?: LogUncheckedCreateNestedManyWithoutConnInput
   }
 
@@ -4997,6 +5026,7 @@ export namespace Prisma {
     id?: StringFilter<"Connection"> | string
     name?: StringFilter<"Connection"> | string
     backendUrl?: StringFilter<"Connection"> | string
+    sheetId?: StringNullableFilter<"Connection"> | string | null
     userId?: StringFilter<"Connection"> | string
   }
 
@@ -5106,6 +5136,7 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
     user: UserCreateNestedOneWithoutConnectionsInput
   }
 
@@ -5113,6 +5144,7 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
     userId: string
   }
 
@@ -5135,12 +5167,14 @@ export namespace Prisma {
   export type ConnectionUpdateWithoutLogsInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutConnectionsNestedInput
   }
 
   export type ConnectionUncheckedUpdateWithoutLogsInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
   }
 
@@ -5148,23 +5182,27 @@ export namespace Prisma {
     id?: string
     name: string
     backendUrl: string
+    sheetId?: string | null
   }
 
   export type ConnectionUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
     logs?: LogUpdateManyWithoutConnNestedInput
   }
 
   export type ConnectionUncheckedUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
     logs?: LogUncheckedUpdateManyWithoutConnNestedInput
   }
 
   export type ConnectionUncheckedUpdateManyWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     backendUrl?: StringFieldUpdateOperationsInput | string
+    sheetId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LogCreateManyConnInput = {

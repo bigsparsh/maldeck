@@ -125,6 +125,7 @@ exports.Prisma.ConnectionScalarFieldEnum = {
   id: 'id',
   name: 'name',
   backendUrl: 'backendUrl',
+  sheetId: 'sheetId',
   userId: 'userId'
 };
 

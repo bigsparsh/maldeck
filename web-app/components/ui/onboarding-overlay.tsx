@@ -7,9 +7,15 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { Input } from "./input"
 import { toast } from "sonner"
+import { useOnboardingStatus } from "@/store/util"
 
 export default function OnboardingOverlay() {
-  const [backendURL, setBackendURL] = useState<string>();
+  const setBackendURL = useOnboardingStatus((state) => state.setBackendUrl);
+  const setBackendName = useOnboardingStatus((state) => state.setBackendName);
+  const setOnboardingStatus = useOnboardingStatus((state) => state.setOnboardingStatus);
+  const backendURL = useOnboardingStatus((state) => state.backendUrl);
+  const backendName = useOnboardingStatus((state) => state.backendName);
+
   const [open, setOpen] = useState(true)
   const [currentStep, setCurrentStep] = useState(1)
   const [copied, setCopied] = useState(false)
@@ -28,18 +34,15 @@ export default function OnboardingOverlay() {
   const totalSteps = 4
 
   const handleNext = () => {
-    if ((!backendURL || backendURL === "") && currentStep === 3) {
-      setError("Please enter the backend URL before continuing");
+    if ((backendURL === "" || backendName === "") && currentStep === 3) {
+      setError("Please enter the backend URL and name before continuing");
       return;
     }
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1)
     } else {
       setOpen(false)
-      localStorage.setItem("onboarding_status", "closed");
-    }
-    if (currentStep === 3) {
-      localStorage.setItem("backendURL", backendURL as string);
+      setOnboardingStatus(false);
     }
   }
 
@@ -164,6 +167,10 @@ app.get("/metrics", async (_, res) => {
               <p>You are almost done</p>
               <Input type="text" placeholder="Enter your backend URL" onChange={e => {
                 setBackendURL(e.target.value)
+              }} />
+
+              <Input type="text" placeholder="Enter name for your backend" onChange={e => {
+                setBackendName(e.target.value)
               }} />
               <p>This will help us to ping your backend to get the necessary information from the server and provide stats to us. So that you may handle or modify your traffic accordingly.</p>
             </div>

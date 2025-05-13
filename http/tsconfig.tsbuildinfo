@@ -1,1 +1,1 @@
-{"root":["./src/index.ts"],"version":"5.9.0-dev"}
+{"root":["./src/GoogleSheets.ts","./src/Logs.ts","./src/index.ts"],"version":"5.9.0-dev"}
