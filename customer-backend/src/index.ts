@@ -36,7 +36,7 @@ app.use(expressFingerprint())
 app.use(async (req, _, next) => {
     totalRequest++;
     let fingerprint = req.fingerprint;
-    let ip = (req.headers['x-forwared-for'] as string).split(",")[0];
+    let ip = req.headers['x-forwared-for'] || req.socket.remoteAddress;
     let route = req.originalUrl;
     let time = new Date().toISOString();
     let location = "";
