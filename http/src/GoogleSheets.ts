@@ -146,12 +146,6 @@ export const appendLogs = async ({
     },
     connId: string
 }) => {
-    console.log("Enterd appendLogs")
-    console.log({
-        sheetId,
-        data,
-        connId
-    })
     const connection = await prisma.connection.findUnique({
         where: {
             id: connId

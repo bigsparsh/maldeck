@@ -1,6 +1,7 @@
 import express from "express";
 import { prisma } from "./db";
 import expressFingerprint from "express-fingerprint"
+import expressIp from "express-ip";
 
 const app = express();
 app.use(express.json());
@@ -35,22 +36,31 @@ let networkingStuff: {
     ip: string
 };
 app.use(expressFingerprint())
+app.use(expressIp().getIpInfoMiddleware);
 
-app.use((req, _, next) => {
+app.use(async (req, _, next) => {
     let fingerprint = req.fingerprint;
+    // @ts-ignore
+    let ip = req.ipInfo.ip;
+    let route = req.originalUrl;
+    let time = new Date().toISOString();
+    let location = "";
+    const geoResponse = await axios.get(`http://ip-api.com/json/${ip}`);
 
-
+    if (geoResponse.data.status === 'success') {
+        location = geoResponse.data.country;
+    }
+    console.log(JSON.stringify({
+        fingerprint: fingerprint.hash,
+        ip,
+        route,
+        time,
+        location
+    }, null, 2))
     next()
 });
 
 app.get("/metrics", async (_, res) => {
-    const ip = await axios.get("https://api.ipify.org");
-    networkingStuff.ip = ip.data;
-    await axios.post("http://localhost:3001/dashboard", {
-        osStuff,
-        reqPerSec,
-        ip: ip.data
-    })
     res.json({
         msg: "Done :thmbsup:"
     })

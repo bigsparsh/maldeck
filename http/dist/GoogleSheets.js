@@ -130,12 +130,6 @@ const createSheet = (_a) => __awaiter(void 0, [_a], void 0, function* ({ sheet_t
 });
 exports.createSheet = createSheet;
 const appendLogs = (_a) => __awaiter(void 0, [_a], void 0, function* ({ sheetId, data, connId }) {
-    console.log("Enterd appendLogs");
-    console.log({
-        sheetId,
-        data,
-        connId
-    });
     const connection = yield prisma.connection.findUnique({
         where: {
             id: connId

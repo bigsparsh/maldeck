@@ -26,6 +26,9 @@ importers:
       express-fingerprint:
         specifier: ^1.2.2
         version: 1.2.2(express@5.1.0)
+      express-ip:
+        specifier: ^1.0.4
+        version: 1.0.4
       nodemon:
         specifier: ^3.1.9
         version: 3.1.9
@@ -494,6 +497,9 @@ packages:
     resolution: {integrity: sha512-d+Sw/aEXGslqn4dFoGKliqVghcuiBNY6AAxGGHMz6KcRkMxX+GlrY6TkTmHhCQP/b22KzuXzD9fahDeA1Vq5OQ==}
     peerDependencies:
       express: '*'
+
+  express-ip@1.0.4:
+    resolution: {integrity: sha512-PP9s2kg1+GHhJGtRqwoVHkBHi8glbL5wXXSj2p2+3qcxUNALwXoNhjtY2eLuNchcnWPkmJGyZcqAWUUpd9ecpA==}
 
   express@5.1.0:
     resolution: {integrity: sha512-DT9ck5YIRU+8GYzzU5kT3eHGA5iL+1Zd0EutOmTE9Dtk+Tvuzd23VBU+ec7HPNSTxXYO55gPV/hq4pSBJDjFpA==}
@@ -1717,6 +1723,10 @@ snapshots:
       murmurhash3js: 3.0.1
       traverse: 0.6.11
       useragent: 2.3.0
+
+  express-ip@1.0.4:
+    dependencies:
+      geoip-lite: 1.4.10
 
   express@5.1.0:
     dependencies:
