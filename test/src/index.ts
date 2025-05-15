@@ -1,7 +1,5 @@
 import express from "express";
 import { prisma } from "./db";
-import expressFingerprint from "express-fingerprint"
-import expressIp from "express-ip";
 
 const app = express();
 app.use(express.json());
@@ -11,6 +9,7 @@ app.use(express.json());
 
 import os from "os";
 import axios from "axios";
+import expressFingerprint from "express-fingerprint"
 
 let totalRequest = 0;
 let reqPerSec = 0;
@@ -32,16 +31,12 @@ let osStuff = {
     cpus: os.cpus()
 }
 
-let networkingStuff: {
-    ip: string
-};
 app.use(expressFingerprint())
-app.use(expressIp().getIpInfoMiddleware);
 
 app.use(async (req, _, next) => {
+    totalRequest++;
     let fingerprint = req.fingerprint;
-    // @ts-ignore
-    let ip = req.ipInfo.ip;
+    let ip = (req.headers['x-forwared-for'] as string).split(",")[0];
     let route = req.originalUrl;
     let time = new Date().toISOString();
     let location = "";
@@ -62,7 +57,13 @@ app.use(async (req, _, next) => {
 
 app.get("/metrics", async (_, res) => {
     res.json({
-        msg: "Done :thmbsup:"
+        msg: "Done :thmbsup:",
+        data: {
+            osStuff,
+            totalRequest,
+            reqPerSec,
+            reqCounter
+        }
     })
 })
 
