@@ -10,6 +10,7 @@ app.use(express.json());
 import os from "os";
 import axios from "axios";
 import expressFingerprint from "express-fingerprint"
+import expressIp from "express-ip";
 
 let totalRequest = 0;
 let reqPerSec = 0;
@@ -32,11 +33,16 @@ let osStuff = {
 }
 
 app.use(expressFingerprint())
+app.enable('trust proxy')
 
 app.use(async (req, _, next) => {
     totalRequest++;
     let fingerprint = req.fingerprint;
-    let ip = req.headers['x-forwared-for'] || req.socket.remoteAddress;
+    const ip =
+        req.headers['cf-connecting-ip'] ||
+        req.headers['x-real-ip'] ||
+        req.headers['x-forwarded-for'] ||
+        req.socket.remoteAddress || '';
     let route = req.originalUrl;
     let time = new Date().toISOString();
     let location = "";
