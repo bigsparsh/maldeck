@@ -74,7 +74,7 @@ app.use(async (req, _, next) => {
       if (geoResponse.data.status === 'success') {
     location = geoResponse.data.country;
   }
-  axios.post("http://localhost:3003/log/create", {
+  axios.post("https://maldeck-main.onrender.com/log/create", {
     fingerprintHash: fingerprint.hash,
     ip,
     route,
