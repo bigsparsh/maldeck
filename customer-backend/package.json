@@ -19,7 +19,6 @@
     "axios": "^1.8.4",
     "express": "^5.1.0",
     "express-fingerprint": "^1.2.2",
-    "express-ip": "^1.0.4",
     "nodemon": "^3.1.9",
     "prisma": "^6.6.0"
   }

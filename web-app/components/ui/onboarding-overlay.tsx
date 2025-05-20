@@ -15,16 +15,12 @@ export default function OnboardingOverlay() {
   const setOnboardingStatus = useOnboardingStatus((state) => state.setOnboardingStatus);
   const backendURL = useOnboardingStatus((state) => state.backendUrl);
   const backendName = useOnboardingStatus((state) => state.backendName);
+  const onBoardingStatus = useOnboardingStatus(state => state.status);
 
-  const [open, setOpen] = useState(true)
+  // const [open, setOpen] = useState(true)
   const [currentStep, setCurrentStep] = useState(1)
   const [copied, setCopied] = useState(false)
   const [error, setError] = useState<string>("");
-
-  useEffect(() => {
-
-    localStorage.setItem("onboarding_status", "open");
-  }, [])
 
   useEffect(() => {
     if (error !== "") {
@@ -41,7 +37,7 @@ export default function OnboardingOverlay() {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1)
     } else {
-      setOpen(false)
+      // setOpen(false)
       setOnboardingStatus(false);
     }
   }
@@ -110,8 +106,10 @@ app.get("/metrics", async (_, res) => {
   }, [currentStep])
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[800px] md:max-w-[900px] max-h-[80vh] overflow-hidden flex flex-col">
+    <Dialog open={onBoardingStatus} onOpenChange={setOnboardingStatus}>
+      <DialogContent className="sm:max-w-[800px] md:max-w-[900px] max-h-[80vh] overflow-hidden flex flex-col [&>button]:hidden"
+        onInteractOutside={(e) => { e.preventDefault() }}
+      >
         <DialogHeader className="flex flex-row items-center justify-between">
           <DialogTitle>
             {currentStep === 1 && "Welcome to Our Platform"}
@@ -204,6 +202,6 @@ app.get("/metrics", async (_, res) => {
           </Button>
         </div>
       </DialogContent>
-    </Dialog>
+    </Dialog >
   )
 }

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// import jwt from "jsonwebtoken";
 const Logs_1 = require("./Logs");
 const zod_1 = require("zod");
 const app = (0, express_1.default)();
@@ -25,14 +25,16 @@ const logSchema = zod_1.z.object({
     connId: zod_1.z.string({ description: "The connection ID of the client from whose backend this reqest was sent from." }),
     fingerprintHash: zod_1.z.string({ description: "The unique fingerprint indentifier for the request sender." }),
     location: zod_1.z.string({ description: "The location of the party who sent the request to client server." }),
-    ip: zod_1.z.string({ description: "The IPv4 of the sender." }).ip({ version: "v4" }),
+    ip: zod_1.z.string({ description: "The IPv4 of the sender." }),
     route: zod_1.z.string({ description: "Which route was hit by the sender?" }),
 });
 app.post("/log/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
+    console.log(body);
     try {
-        const decode = jsonwebtoken_1.default.verify(body.jwt, process.env.JWT_SECRET);
-        const parse = logSchema.safeParse(decode);
+        // const decode = jwt.verify(body.jwt, process.env.JWT_SECRET as string);
+        const parse = logSchema.safeParse(body);
+        console.log(parse);
         if (parse.success) {
             const newLog = yield (0, Logs_1.createLog)(parse.data);
             res.json({

@@ -1,7 +1,6 @@
 "use server"
 import { prisma } from "@/prisma/prisma";
 import { currentUser } from "@clerk/nextjs/server"
-import { User } from "@prisma/client";
 
 export const checkUser = async () => {
   const user = await currentUser();
@@ -32,22 +31,9 @@ export const checkUser = async () => {
 
   // If user exists in DB then return
   return {
-    usernew: true,
+    usernew: false,
     user: dbUser
   }
 }
 
-export const createConnection = async ({ backendUrl, user, name }: {
-  backendUrl: string,
-  user: User,
-  name: string
-}) => {
-  const newConnection = await prisma.connection.create({
-    data: {
-      backendUrl,
-      userId: user.id,
-      name,
-    }
-  })
-  return newConnection;
-}
+

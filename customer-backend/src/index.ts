@@ -5,12 +5,14 @@ const app = express();
 app.use(express.json());
 
 
+
+
+
 /// ---------------------------------------------------------
 
 import os from "os";
 import axios from "axios";
 import expressFingerprint from "express-fingerprint"
-import expressIp from "express-ip";
 
 let totalRequest = 0;
 let reqPerSec = 0;
@@ -46,22 +48,30 @@ app.use(async (req, _, next) => {
     let route = req.originalUrl;
     let time = new Date().toISOString();
     let location = "";
-    const geoResponse = await axios.get(`http://ip-api.com/json/${ip}`);
+    const geoResponse = await axios.get("http://ip-api.com/json/" + ip);
 
     if (geoResponse.data.status === 'success') {
         location = geoResponse.data.country;
     }
-    console.log(JSON.stringify({
-        fingerprint: fingerprint.hash,
+    const res = await axios.post("http://localhost:3003/log/create", {
+        fingerprintHash: fingerprint.hash,
         ip,
         route,
         time,
-        location
-    }, null, 2))
+        location,
+        connId: "682b740066e1fe7a38e0c466"
+    })
+    console.log(JSON.stringify(res.data, null, 2))
     next()
 });
 
 app.get("/metrics", async (_, res) => {
+    console.log(
+        osStuff,
+        totalRequest,
+        reqPerSec,
+        reqCounter
+    )
     res.json({
         msg: "Done :thmbsup:",
         data: {
@@ -74,6 +84,11 @@ app.get("/metrics", async (_, res) => {
 })
 
 /// ---------------------------------------------------------
+
+
+
+
+
 
 app.get("/users", async (_, res) => {
     totalRequest++;
