@@ -53,21 +53,29 @@ app.use(async (req, _, next) => {
     if (geoResponse.data.status === 'success') {
         location = geoResponse.data.country;
     }
-    const res = await axios.post("http://localhost:3003/log/create", {
-        fingerprintHash: fingerprint.hash,
-        ip,
-        route,
-        time,
-        location,
-        connId: "682b740066e1fe7a38e0c466"
-    })
-    console.log(JSON.stringify(res.data, null, 2))
+    console.log(
+        {
+            fingerprintHash: fingerprint.hash,
+            ip,
+            route,
+            time,
+            location,
+        }
+    )
+    // axios.post("http://localhost:3003/log/create", {
+    //     fingerprintHash: fingerprint.hash,
+    //     ip,
+    //     route,
+    //     time,
+    //     location,
+    //     connId: "682c0ebdd2b8ebd0ff04603d"
+    // })
     next()
 });
 
 app.get("/metrics", async (_, res) => {
     console.log(
-        osStuff,
+        // osStuff,
         totalRequest,
         reqPerSec,
         reqCounter
@@ -75,7 +83,7 @@ app.get("/metrics", async (_, res) => {
     res.json({
         msg: "Done :thmbsup:",
         data: {
-            osStuff,
+            // osStuff,
             totalRequest,
             reqPerSec,
             reqCounter
@@ -84,6 +92,8 @@ app.get("/metrics", async (_, res) => {
 })
 
 /// ---------------------------------------------------------
+
+
 
 
 
