@@ -37,7 +37,7 @@ const WidgetDisplay = () => {
         <h1 className="text-2xl font-semibold">Your Backends</h1>
         <div className="flex flex-col gap-4">
             {conns?.map(ele => {
-                return <BackendCards name={ele.name} url={ele.backendUrl} sheetId={ele.sheetId} key={ele.id} />
+                return <BackendCards id={ele.id} name={ele.name} url={ele.backendUrl} sheetId={ele.sheetId} key={ele.id} />
             })}
         </div>
         <Button onClick={() => setOnboardingStatus(true)}>+</Button>
