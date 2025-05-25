@@ -3,7 +3,7 @@ import { Tooltip } from "@/components/ui/tooltip";
 import { pollBackend } from "@/lib/actions/Connection";
 import { useGraphState } from "@/store/util";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 const Page = () => {
@@ -11,7 +11,7 @@ const Page = () => {
   const setGraphState = useGraphState(state => state.setState);
   const setCompleteGraphState = useGraphState(state => state.setCompleteGraphState);
   const graphState = useGraphState(state => state.state);
-  const [_, setData] = useState<any>();
+  // const [data, setData] = useState<any>();
 
   useEffect(() => {
     let interval = setInterval(async () => {
@@ -21,12 +21,12 @@ const Page = () => {
         graphState.reverse();
         setCompleteGraphState(graphState);
       }
-      setData({
-        time: (new Date()).toTimeString(),
-        requestPerSec: res.reqPerSec as number,
-        totalRequests: res.totalRequest as number
-
-      })
+      // setData({
+      //   time: (new Date()).toTimeString(),
+      //   requestPerSec: res.reqPerSec as number,
+      //   totalRequests: res.totalRequest as number
+      //
+      // })
       setGraphState(
         {
           time: (new Date()).toTimeString(),
