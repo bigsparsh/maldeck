@@ -49,7 +49,7 @@ export const createConnection = async ({ backendUrl, name }: {
 }
 
 export const createLog = async ({ connId }: { connId: string }) => {
-  axios.post(process.env.MALDECK_BACKEND_URL + "/log/create", {
+  axios.post("http://localhost:3000/log/create", {
     ip: "127.0.0.1",
     time: new Date().toISOString(),
     fingerprintHash: "This is a mock request",
@@ -57,4 +57,17 @@ export const createLog = async ({ connId }: { connId: string }) => {
     route: "/",
     connId
   })
+}
+
+export const pollBackend = async ({ connectionId }: { connectionId: string }) => {
+  const conn = await prisma.connection.findUnique({
+    where: {
+      id: connectionId
+    }
+  })
+
+  const res = await axios.get(conn?.backendUrl + "/metrics");
+  return {
+    ...res.data
+  }
 }

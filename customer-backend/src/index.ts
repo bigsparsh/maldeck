@@ -5,9 +5,6 @@ const app = express();
 app.use(express.json());
 
 
-
-
-
 /// ---------------------------------------------------------
 
 import os from "os";
@@ -53,29 +50,20 @@ app.use(async (req, _, next) => {
     if (geoResponse.data.status === 'success') {
         location = geoResponse.data.country;
     }
-    console.log(
-        {
-            fingerprintHash: fingerprint.hash,
-            ip,
-            route,
-            time,
-            location,
-        }
-    )
-    // axios.post("http://localhost:3003/log/create", {
-    //     fingerprintHash: fingerprint.hash,
-    //     ip,
-    //     route,
-    //     time,
-    //     location,
-    //     connId: "682c0ebdd2b8ebd0ff04603d"
-    // })
+    axios.post("http://localhost:3000/log/create", {
+        fingerprintHash: fingerprint.hash,
+        ip,
+        route,
+        time,
+        location,
+        connId: "6832d395ecfd317da90f9f39"
+    })
     next()
 });
 
 app.get("/metrics", async (_, res) => {
     console.log(
-        // osStuff,
+        osStuff,
         totalRequest,
         reqPerSec,
         reqCounter
@@ -83,7 +71,7 @@ app.get("/metrics", async (_, res) => {
     res.json({
         msg: "Done :thmbsup:",
         data: {
-            // osStuff,
+            osStuff,
             totalRequest,
             reqPerSec,
             reqCounter
@@ -92,11 +80,6 @@ app.get("/metrics", async (_, res) => {
 })
 
 /// ---------------------------------------------------------
-
-
-
-
-
 
 
 

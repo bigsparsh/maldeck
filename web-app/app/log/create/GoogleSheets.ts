@@ -1,9 +1,7 @@
+import { PrismaClient } from "@prisma/client";
 import { google } from "googleapis";
-import dotenv from "dotenv"
-import { PrismaClient } from "../dist/generated/prisma";
 
 const prisma = new PrismaClient();
-dotenv.config()
 
 const auth = new google.auth.GoogleAuth({
     credentials: {

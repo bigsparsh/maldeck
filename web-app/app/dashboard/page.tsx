@@ -74,7 +74,7 @@ app.use(async (req, _, next) => {
       if (geoResponse.data.status === 'success') {
     location = geoResponse.data.country;
   }
-  axios.post("https://maldeck-main.onrender.com/log/create", {
+  axios.post("http://localhost:3000/log/create", {
     fingerprintHash: fingerprint.hash,
     ip,
     route,
@@ -221,7 +221,7 @@ app.get("/metrics", async (_, res) => {
     <div className="flex flex-col w-full h-full gap-3">
       {
         conns?.length === 0 ? <div className="grow grid place-items-center">You have no backends currently</div> : conns?.map(ele => {
-          return <BackendCards key={ele.id} name={ele.name} url={ele.backendUrl} sheetId={ele.sheetId}></BackendCards>
+          return <BackendCards key={ele.id} id={ele.id} name={ele.name} url={ele.backendUrl} sheetId={ele.sheetId}></BackendCards>
         })
       }
     </div>

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 
-const BackendCards = ({ name, url, sheetId }: { name: string, url: string, sheetId: string | null }) => {
+const BackendCards = ({ name, url, sheetId, id }: { name: string, url: string, sheetId: string | null, id: string }) => {
     return <div className="rounded-xl w-full bg-stone-900 p-5 flex">
         <div className="grow">
-            <h1 className="text-xl font-bold">{name}</h1>
+            <Link href={"/dashboard/backend/" + id} className="text-xl font-bold">{name}</Link>
             <p className="text-lg">{url}</p>
         </div>
         <div>

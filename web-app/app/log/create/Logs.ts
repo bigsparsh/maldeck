@@ -1,4 +1,4 @@
-import { PrismaClient } from "../dist/generated/prisma/";
+import { PrismaClient } from "@prisma/client";
 import { appendLogs, createSheet } from "./GoogleSheets";
 const prisma = new PrismaClient();
 
