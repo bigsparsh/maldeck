@@ -50,7 +50,7 @@ app.use(async (req, _, next) => {
     if (geoResponse.data.status === 'success') {
         location = geoResponse.data.country;
     }
-    axios.post("http://localhost:3000/log/create", {
+    axios.post("https://maldeck.bigsparsh.space/log/create", {
         fingerprintHash: fingerprint.hash,
         ip,
         route,
@@ -63,19 +63,14 @@ app.use(async (req, _, next) => {
 
 app.get("/metrics", async (_, res) => {
     console.log(
-        osStuff,
         totalRequest,
         reqPerSec,
         reqCounter
     )
     res.json({
-        msg: "Done :thmbsup:",
-        data: {
-            osStuff,
-            totalRequest,
-            reqPerSec,
-            reqCounter
-        }
+        totalRequest,
+        reqPerSec,
+        reqCounter
     })
 })
 
