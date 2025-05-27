@@ -49,7 +49,7 @@ export const createConnection = async ({ backendUrl, name }: {
 }
 
 export const createLog = async ({ connId }: { connId: string }) => {
-  axios.post("http://localhost:3000/log/create", {
+  axios.post("https://maldeck.bigsparsh.space/log/create", {
     ip: "127.0.0.1",
     time: new Date().toISOString(),
     fingerprintHash: "This is a mock request",

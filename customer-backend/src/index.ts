@@ -33,7 +33,7 @@ const stuff = async () => {
             connId: string;
             fingerprintHash: string;
         }[]
-    } = (await axios.post("http://localhost:3000/api/blocklist", {
+    } = (await axios.post("https://maldeck.bigsparsh.space/api/blocklist", {
         connId: "6832d395ecfd317da90f9f39"
     })).data;
     blockList = res.blockList.map(ele => {
@@ -109,7 +109,7 @@ app.use(async (req, res, next) => {
         traffic.set(fingerprint.hash, 1)
     }
     console.log(traffic)
-    axios.post("http://localhost:3000/api/log/create", {
+    axios.post("https://maldeck.bigsparsh.space/api/log/create", {
         fingerprintHash: fingerprint.hash,
         ip,
         route,
