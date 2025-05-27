@@ -15,24 +15,24 @@ const WidgetDisplay = () => {
     const setOnboardingStatus = useOnboardingStatus(state => state.setOnboardingStatus);
     const [conns, setConns] = useState<Connection[]>()
 
-    useEffect(() => {
-        const gets = async () => {
-            setConns(await getConnections())
-            if (onboardingstatus) return;
+    const gets = async () => {
+        setConns(await getConnections())
+        if (onboardingstatus) return;
 
-            toast(backendURL);
+        toast(backendURL);
 
-            if (backendURL && backendURL !== "") {
-                createConnection({
-                    backendUrl: backendURL,
-                    name: backendName,
-                })
-            }
-
+        if (backendURL && backendURL !== "") {
+            createConnection({
+                backendUrl: backendURL,
+                name: backendName,
+            })
         }
+
+    }
+    useEffect(() => {
         gets();
 
-    }, [onboardingstatus]);
+    }, [onboardingstatus, gets]);
     return <div className="flex flex-col p-5 gap-5">
         <h1 className="text-2xl font-semibold">Your Backends</h1>
         <div className="flex flex-col gap-4">

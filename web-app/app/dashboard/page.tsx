@@ -31,34 +31,75 @@ const Dashboard = () => {
   const codeExample = `
 /// ---------------------------------------------------------
 
-import os from "os";
 import axios from "axios";
 import expressFingerprint from "express-fingerprint"
 
 let totalRequest = 0;
+let totalRequestBfr = 0;
 let reqPerSec = 0;
 let reqCounter = 0;
+const blockRequestNum = 10;
+const blockTimeMinutes = 1;
+
+const graphStuff: {
+    reqPerSecond: number,
+    time: string,
+    totalRequests: number
+}[] = [];
+
+const traffic: Map<string, number> = new Map();
+let blockList: string[] = [];
+
+const stuff = async () => {
+    const res: {
+        blockList: {
+            id: string;
+            connId: string;
+            fingerprintHash: string;
+        }[]
+    } = (await axios.post("http://localhost:3000/api/blocklist", {
+        connId: "${connId}"
+    })).data;
+    blockList = res.blockList.map(ele => {
+        return ele.fingerprintHash
+    });
+    console.log(blockList)
+}
+
+if (blockList.length === 0) {
+    stuff();
+}
 
 setInterval(() => {
-    reqPerSec = totalRequest / reqCounter;
-    reqCounter++;
+    reqPerSec = totalRequest - totalRequestBfr;
+    totalRequestBfr = totalRequest;
 }, 1000)
 
-let osStuff = {
-    platform: os.platform(),
-    architecture: os.arch(),
-    release: os.release(),
-    type: os.type(),
-    uptime: os.uptime(),
-    network: os.networkInterfaces(),
-    totalmem: os.totalmem(),
-    cpus: os.cpus()
-}
+setInterval(() => {
+    if (graphStuff.length > 5) {
+        graphStuff.reverse().pop();
+        graphStuff.reverse();
+    }
+    graphStuff.push({
+        totalRequests: totalRequest,
+        time: new Date().toISOString(),
+        reqPerSecond: reqPerSec
+    })
+    traffic.clear();
+}, 1000 * 20)
+
+setInterval(async () => {
+    stuff();
+}, 1000 * 60 * blockTimeMinutes)
 
 app.use(expressFingerprint())
 app.enable('trust proxy')
 
-app.use(async (req, _, next) => {
+app.use(async (req, res, next) => {
+    if (req.query.admin) {
+        next();
+        return;
+    }
     totalRequest++;
     let fingerprint = req.fingerprint;
     const ip =
@@ -71,39 +112,48 @@ app.use(async (req, _, next) => {
     let location = "";
     const geoResponse = await axios.get("http://ip-api.com/json/" + ip);
 
-      if (geoResponse.data.status === 'success') {
-    location = geoResponse.data.country;
-  }
-  axios.post("http://localhost:3000/log/create", {
-    fingerprintHash: fingerprint.hash,
-    ip,
-    route,
-    time,
-    location,
-    connId: "${connId}"
-  })
-  next()
+    if (geoResponse.data.status === 'success')
+        location = geoResponse.data.country;
+
+
+    if (blockList.includes(fingerprint.hash)) {
+        res.json({
+            msg: "You have been blocked try again later"
+        })
+        return;
+    }
+
+    if (traffic.get(fingerprint.hash)) {
+        traffic.set(fingerprint.hash,
+            traffic.get(fingerprint.hash) + 1
+        )
+        if (traffic.get(fingerprint.hash) > blockRequestNum)
+            blockList.push(fingerprint.hash);
+    } else {
+        traffic.set(fingerprint.hash, 1)
+    }
+    console.log(traffic)
+    axios.post("http://localhost:3000/api/log/create", {
+        fingerprintHash: fingerprint.hash,
+        ip,
+        route,
+        time,
+        location,
+        connId: "${connId}"
+    })
+    next()
 });
 
 app.get("/metrics", async (_, res) => {
-  console.log(
-    osStuff,
-    totalRequest,
-    reqPerSec,
-    reqCounter
-  )
-  res.json({
-    msg: "Done :thmbsup:",
-    data: {
-      osStuff,
-      totalRequest,
-      reqPerSec,
-      reqCounter
-    }
-  })
+    res.json({
+        totalRequest,
+        reqPerSec,
+        reqCounter,
+        graphStuff,
+    })
 })
 
-  /// ---------------------------------------------------------
+/// ---------------------------------------------------------
   `
 
   useEffect(() => {

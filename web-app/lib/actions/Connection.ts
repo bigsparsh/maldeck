@@ -59,15 +59,66 @@ export const createLog = async ({ connId }: { connId: string }) => {
   })
 }
 
-export const pollBackend = async ({ connectionId }: { connectionId: string }) => {
+export const getMetrics = async ({ connectionId }: { connectionId: string }) => {
   const conn = await prisma.connection.findUnique({
     where: {
       id: connectionId
     }
   })
 
-  const res = await axios.get(conn?.backendUrl + "/metrics");
+  if (!conn?.backendUrl) throw new Error("conn backendUrl is invalid or something")
+  console.log(conn?.backendUrl);
+  const res: {
+    data: {
+      graphStuff: {
+        reqPerSecond: number;
+        time: string;
+        totalRequests: number;
+      }[]
+    }
+  } = await axios.get(conn?.backendUrl + "/metrics", {
+    params: {
+      admin: true
+    }
+  });
   return {
     ...res.data
   }
+}
+export const createBlockList = async ({
+  connId,
+  fingerprint
+}: {
+  connId: string;
+  fingerprint: string;
+}) => {
+  const blockEntry = await prisma.blockList.create({
+    data: {
+      connId,
+      fingerprintHash: fingerprint
+    }
+  })
+
+  return blockEntry;
+}
+
+export const getBlockList = async ({ connId }: { connId: string }) => {
+  const blockEntries = await prisma.blockList.findMany({
+    where: {
+      connId
+    }
+  })
+
+  return blockEntries;
+}
+
+export const removeBlockList = async ({ connId, fingerprint }: { connId: string, fingerprint: string }) => {
+  const blockEntries = await prisma.blockList.deleteMany({
+    where: {
+      connId,
+      fingerprintHash: fingerprint
+    }
+  })
+
+  return blockEntries;
 }

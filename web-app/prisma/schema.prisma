@@ -31,6 +31,7 @@ model Connection {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   logs Log[]
+  blocklist BlockList []
 }
 
 model Log {
@@ -42,4 +43,12 @@ model Log {
   time DateTime
   connId String
   conn Connection @relation(fields: [connId], references: [id], onDelete: Cascade)
+}
+
+model BlockList {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  fingerprintHash String
+  connId String
+
+  connection Connection @relation(fields: [connId], references: [id], onDelete: Cascade)
 }
